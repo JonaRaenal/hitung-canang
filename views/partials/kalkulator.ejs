@@ -1,0 +1,102 @@
+<style>
+    /* Style Kalkulator */
+    .calc-container {
+        width: 250px;
+        background: #333;
+        padding: 15px;
+        border-radius: 10px;
+        color: white;
+        margin-bottom: 20px;
+    }
+
+    #display {
+        width: 100%;
+        height: 40px;
+        font-size: 20px;
+        text-align: right;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        border: none;
+        padding: 5px;
+    }
+
+    .calc-buttons {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+    }
+
+    .calc-buttons button {
+        height: 40px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        background: #555;
+        color: white;
+    }
+
+    .calc-buttons button:hover {
+        background: #777;
+    }
+
+    .btn-equal {
+        background: #22c55e !important;
+        grid-row: span 2;
+        height: 100% !important;
+    }
+</style>
+
+<div id="kalkulator-mini" class="calc-container">
+    <h3>Kalkulator Cepat</h3>
+    <input type="text" id="display" readonly>
+    <div class="calc-buttons">
+        <button onclick="clearDisplay()">C</button>
+        <button onclick="appendToDisplay('/')">/</button>
+        <button onclick="appendToDisplay('*')">x</button>
+        <button onclick="deleteLast()">DEL</button>
+            
+        <button onclick="appendToDisplay('7')">7</button>
+        <button onclick="appendToDisplay('8')">8</button>
+        <button onclick="appendToDisplay('9')">9</button>
+        <button onclick="appendToDisplay('-')">-</button>
+            
+        <button onclick="appendToDisplay('4')">4</button>
+        <button onclick="appendToDisplay('5')">5</button>
+        <button onclick="appendToDisplay('6')">6</button>
+        <button onclick="appendToDisplay('+')">+</button>
+            
+        <button onclick="appendToDisplay('1')">1</button>
+        <button onclick="appendToDisplay('2')">2</button>
+        <button onclick="appendToDisplay('3')">3</button>
+        <button onclick="calculateResult()" class="btn-equal">=</button>
+            
+        <button onclick="appendToDisplay('0')" style="grid-column: span 2;">0</button>
+        <button onclick="appendToDisplay('000')">.000</button>
+    </div>
+</div>
+
+<script>
+    const display = document.getElementById('display');
+
+    function appendToDisplay(input) {
+        display.value += input;
+    }
+
+    function clearDisplay() {
+        display.value = "";
+    }
+
+    function deleteLast() {
+        display.value = display.value.slice(0, -1);
+    }
+
+    function calculateResult() {
+        try {
+            // Menggunakan Function() lebih aman daripada eval() untuk matematika sederhana
+            display.value = new Function('return ' + display.value)();
+        } catch (error) {
+            display.value = "Error";
+        }
+    }
+</script>

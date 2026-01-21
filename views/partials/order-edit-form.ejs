@@ -1,0 +1,32 @@
+<tr id="order-<%= order.id %>">
+    <td>
+        <input type="text" name="nama_pelanggan" value="<%= order.nama_pelanggan %>" required>
+    </td>
+    <td>
+        <input type="text" name="jenis_canang" value="<%= order.jenis_canang %>" required>
+    </td>
+    <td>
+        <input type="number" name="jumlah" value="<%= order.jumlah %>" required style="width: 50px;">
+    </td>
+    <td>
+        <input type="number" name="harga_satuan" value="<%= order.harga_satuan %>" required style="width: 80px;">
+    </td>
+    <td>---</td>
+    <td><%= order.status %></td>
+    <td>
+        <button 
+            hx-put="/orders/update/<%= order.id %>" 
+            hx-target="#order-<%= order.id %>" 
+            hx-include="closest tr" 
+            hx-swap="outerHTML">
+            Simpan
+        </button>
+        
+        <button 
+            hx-get="/orders/cancel-edit/<%= order.id %>" 
+            hx-target="#order-<%= order.id %>" 
+            hx-swap="outerHTML">
+            Batal
+        </button>
+    </td>
+</tr>

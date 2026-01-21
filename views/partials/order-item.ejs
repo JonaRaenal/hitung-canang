@@ -1,0 +1,26 @@
+<tr id="order-<%= order.id %>" hx-trigger="dblclick" hx-get="/orders/edit/<%= order.id %>" hx-target="this" hx-swap="outerHTML" style="cursor: pointer;">
+    <td style="font-weight: 600;"><%= order.nama_pelanggan %></td>
+    <td><%= order.jenis_canang %></td>
+    <td><%= order.jumlah %></td>
+    <td>Rp <%= Number(order.harga_satuan).toLocaleString('id-ID') %></td>
+    <td style="font-weight: 700;">Rp <%= Number(order.jumlah * order.harga_satuan).toLocaleString('id-ID') %></td>
+    <td><span class="badge <%= order.status %>"><%= order.status %></span></td>
+    <td>
+        <% if (order.status === 'baru') { %>
+            <button hx-put="/orders/done/<%= order.id %>" 
+                    hx-target="#order-<%= order.id %>" 
+                    hx-swap="outerHTML"
+                    class="btn-primary" style="background: var(--success); font-size: 12px;">
+                Selesai
+            </button>
+        <% } %>
+
+        <button hx-delete="/orders/<%= order.id %>"
+        hx-target="#order-<%= order.id %>"
+        hx-swap="outerHTML"
+        hx-confirm="Yakin ingin menghapus pesanan <%= order.nama_pelanggan %>?"
+        class="btn-danger">
+            Hapus
+        </button>
+    </td>
+</tr>

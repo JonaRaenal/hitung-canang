@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riwayat Arsip - Hitung Canang</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📁 Riwayat Tutup Buku</h1>
+            <a href="/" class="btn-primary" style="text-decoration:none; background:#64748b;">⬅ Kembali</a>
+        </header>
+
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tanggal</th>
+                        <th>Total Pendapatan</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% archives.forEach((item) => { %>
+                        <tr>
+                            <td style="font-size: 14px;">
+                                <strong><%= new Date(item.tanggal_arsip).toLocaleDateString('id-ID') %></strong><br>
+                                <small style="color: #64748b;"><%= new Date(item.tanggal_arsip).toLocaleTimeString('id-ID') %></small>
+                            </td>
+                            <td style="font-weight: 700; color: var(--primary);">
+                                Rp <%= Number(item.total_pendapatan).toLocaleString('id-ID') %>
+                            </td>
+                            <td>
+                                <div style="display: flex; gap: 8px;">
+                                    <button class="btn-primary" style="font-size: 12px; background: #6366f1;"
+                                        data-pesanan='<%= typeof item.detail_pesanan === "string" ? item.detail_pesanan : JSON.stringify(item.detail_pesanan) %>'
+                                        onclick="tampilkanDetail(this)">
+                                        🔍 Detail
+                                    </button>
+                                    <a href="/history/print/<%= item.id %>" target="_blank" style="text-decoration: none;">
+                                        <button class="btn-primary" style="font-size: 12px; background: var(--primary);">
+                                            🖨️ Cetak
+                                        </button>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="detail-container" class="card" style="display:none; margin-top: 30px; border: 2px solid var(--primary);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h3 style="margin:0;">Detail Pesanan Lampau</h3>
+                <button onclick="document.getElementById('detail-container').style.display='none'" class="btn-danger" style="padding: 5px 10px;">X</button>
+            </div>
+            
+            <div class="table-responsive">
+                <table style="font-size: 14px;">
+                    <thead style="background: #f8fafc;">
+                        <tr>
+                            <th>Pelanggan</th>
+                            <th>Canang</th>
+                            <th>Qty</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody id="detail-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    function tampilkanDetail(btn) {
+        const dataRaw = btn.getAttribute('data-pesanan');
+        const pesanan = JSON.parse(dataRaw);
+        const body = document.getElementById('detail-body');
+        const container = document.getElementById('detail-container');
+        
+        body.innerHTML = ''; 
+        pesanan.forEach(p => {
+            body.innerHTML += `
+                <tr>
+                    <td>${p.nama_pelanggan}</td>
+                    <td>${p.jenis_canang}</td>
+                    <td>${p.jumlah}</td>
+                    <td>Rp ${Number(p.jumlah * p.harga_satuan).toLocaleString('id-ID')}</td>
+                </tr>`;
+        });
+        
+        container.style.display = 'block';
+        container.scrollIntoView({ behavior: 'smooth' });
+    }
+    </script>
+</body>
+</html>

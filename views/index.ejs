@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hitung Canang Ibu</title>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎋 Hitung Canang Ibu</h1>
+            <a href="/history" class="btn-primary" style="text-decoration:none; padding:8px 15px; font-size:14px;">📁 Riwayat</a>
+        </header>
+
+        <div class="dashboard">
+            <div class="card">
+                <%- include('partials/kalkulator') %>
+            </div>
+
+            <div class="card">
+                <h3>Total Pendapatan</h3>
+                <span class="summary-total" id="total-harga" 
+                    hx-get="/total-pendapatan" 
+                    hx-trigger="load, updateTotal from:body">
+                    Rp <%= Number(totalPendapatan).toLocaleString('id-ID') %>
+                </span>
+                <button onclick="confirmReset()" class="btn-danger" style="width: 100%; margin-top: 15px;">
+                    Tutup Buku & Print
+                </button>
+            </div>
+
+            <script>
+            function confirmReset() {
+                if (confirm("Apakah Anda yakin ingin menutup buku? Semua pesanan 'Selesai' akan dihapus dan total kembali ke Rp 0.")) {
+                    window.location.href = "/print-reset";
+                }
+            }
+            </script>
+        </div>
+
+        <div class="form-container">
+            <h3>Tambah Pesanan Baru</h3>
+            <form hx-post="/orders" hx-target="#order-list" hx-swap="afterbegin" hx-on::after-request="this.reset()" class="form-grid">
+                <input type="text" name="nama_pelanggan" placeholder="Nama Pelanggan" required>
+                <input type="text" name="jenis_canang" placeholder="Jenis Canang" required>
+                <input type="number" name="jumlah" placeholder="Jumlah" required>
+                <input type="number" name="harga_satuan" placeholder="Harga Satuan" required>
+                <button type="submit" class="btn-primary">Tambah</button>
+            </form>
+        </div>
+
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Pelanggan</th>
+                        <th>Jenis</th>
+                        <th>Qty</th>
+                        <th>Harga</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="order-list">
+                    <% orders.forEach(order => { %>
+                        <%- include('partials/order-item', { order: order }) %>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

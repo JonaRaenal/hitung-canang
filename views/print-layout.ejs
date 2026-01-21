@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Laporan Penjualan Canang</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        .total { font-size: 20px; font-weight: bold; margin-top: 20px; }
+        .header { text-align: center; }
+        /* CSS ini memastikan tombol tidak ikut ter-print */
+        @media print {
+            .no-print { display: none !important; }
+            body { padding: 0; }
+        }
+    </style>
+</head>
+<body style="padding: 40px;">
+    <div class="no-print" style="margin-bottom: 20px; display: flex; gap: 10px;">
+        <button onclick="window.print()" style="background: #22c55e; color: white; padding: 10px 20px; border: none; cursor: pointer;">
+            🖨️ Simpan ke PDF / Print
+        </button>
+        <button onclick="window.location='/'" style="background: #6b7280; color: white; padding: 10px 20px; border: none; cursor: pointer;">
+            Kembali ke Aplikasi
+        </button>
+    </div>
+
+    <div id="print-area">
+        <div class="header">
+            <h1>Laporan Penjualan Canang</h1>
+            <p>Tanggal Laporan: <%= tanggal %></p>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Pelanggan</th>
+                    <th>Jenis Canang</th>
+                    <th>Jumlah</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (orders && orders.length > 0) { %>
+                    <% orders.forEach(order => { %>
+                        <tr>
+                            <td><%= order.nama_pelanggan %></td>
+                            <td><%= order.jenis_canang %></td>
+                            <td><%= order.jumlah %></td>
+                            <td>Rp <%= Number(order.jumlah * order.harga_satuan).toLocaleString('id-ID') %></td>
+                        </tr>
+                    <% }) %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="4">Tidak ada data pesanan.</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+
+        <div class="total">
+            TOTAL PENDAPATAN: Rp <%= Number(total).toLocaleString('id-ID') %>
+        </div>
+    </div>
+</body>
+</html>
