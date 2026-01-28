@@ -179,6 +179,16 @@ app.get('/history/print/:id', async (req, res) => {
     }
 });
 
+//Rute Menghapus Riwayat Tutup Buku
+app.delete('/history/:id', async (req, res) => {
+    try {
+        await db.execute('DELETE FROM archives WHERE id = ?', [req.params.id]);
+        res.send(""); // Kirim kosong agar baris di tabel hilang
+    } catch (err) {
+        res.status(500).send("Gagal menghapus riwayat");
+    }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server jalan di http://localhost:${PORT}`);

@@ -44,6 +44,13 @@
                                             🖨️ Cetak
                                         </button>
                                     </a>
+                                    <button hx-delete="/history/<%= item.id %>"
+                                            hx-target="#archive-<%= item.id %>"
+                                            hx-swap="outerHTML"
+                                            hx-confirm="Hapus permanen laporan tanggal <%= new Date(item.tanggal_arsip).toLocaleDateString('id-ID') %>?"
+                                            style="background: #fee2e2; color: #ef4444; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 12px;">
+                                        🗑️ Hapus
+                                    </button>
                                 </div>
                             </td>
                         </tr>
