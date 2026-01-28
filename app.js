@@ -105,22 +105,6 @@ app.get('/orders/cancel-edit/:id', async (req, res) => {
     res.render('partials/order-item', { order: rows[0] });
 });
 
-// Rute untuk menghapus pesanan
-app.delete('/orders/:id', async (req, res) => {
-    try {
-        const id = req.params.id;
-        await db.execute('DELETE FROM orders WHERE id = ?', [id]);
-        
-        // Kirim header untuk update total harga di layar (karena ada data yang hilang)
-        res.setHeader('HX-Trigger', 'updateTotal');
-        
-        // Kirim respon kosong agar HTMX menghapus elemen tr tersebut dari layar
-        res.send(""); 
-    } catch (err) {
-        res.status(500).send("Gagal menghapus pesanan");
-    }
-});
-
 // Rute Cetak dan Reset
 app.get('/print-reset', async (req, res) => {
     try {

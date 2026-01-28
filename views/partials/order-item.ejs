@@ -14,13 +14,5 @@
                 Selesai
             </button>
         <% } %>
-
-        <button hx-delete="/orders/<%= order.id %>"
-        hx-target="#order-<%= order.id %>"
-        hx-swap="outerHTML"
-        hx-confirm="Yakin ingin menghapus pesanan <%= order.nama_pelanggan %>?"
-        class="btn-danger">
-            Hapus
-        </button>
     </td>
 </tr>
