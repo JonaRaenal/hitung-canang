@@ -182,9 +182,13 @@ app.get('/history/print/:id', async (req, res) => {
 //Rute Menghapus Riwayat Tutup Buku
 app.delete('/history/:id', async (req, res) => {
     try {
-        await db.execute('DELETE FROM archives WHERE id = ?', [req.params.id]);
-        res.send(""); // Kirim kosong agar baris di tabel hilang
+        const id = req.params.id;
+        await db.execute('DELETE FROM archives WHERE id = ?', [id]);
+        
+        // Kirim response kosong agar HTMX menghapus baris di tabel
+        res.send(""); 
     } catch (err) {
+        console.error(err);
         res.status(500).send("Gagal menghapus riwayat");
     }
 });
