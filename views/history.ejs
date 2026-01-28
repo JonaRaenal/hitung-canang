@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Riwayat Arsip - Hitung Canang</title>
-    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
@@ -25,7 +24,7 @@
                 </thead>
                 <tbody>
                     <% archives.forEach((item) => { %>
-                        <tr>
+                        <tr id="archive-<%= item.id %>">
                             <td style="font-size: 14px;">
                                 <strong><%= new Date(item.tanggal_arsip).toLocaleDateString('id-ID') %></strong><br>
                                 <small style="color: #64748b;"><%= new Date(item.tanggal_arsip).toLocaleTimeString('id-ID') %></small>
